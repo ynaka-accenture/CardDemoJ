@@ -1,0 +1,48 @@
+***********************************************************************
+* 日本版CardDemo - 与信DB IMS DBD定義 (DBPAUJP0)
+* 原 DBPAUTP0 を日本語化。与信明細セグメントに漢字加盟店名フィールドを追加。
+*
+* 日本語化のポイント:
+*   IMSセグメントの BYTES はバイト数で固定。漢字フィールドは EBCDIC2バイト
+*   前提で確保するため、UTF-8基盤(IMS Open DB / Java)へ移行する際、
+*   セグメント長の再計算とフィールドの文字コード定義の見直しが必要(T1/T2)。
+*   FIELD の TYPE=C はキャラクタだが、DBCS混在は IMS では透過バイトとして
+*   扱われ、文字コード変換はアプリ責務(DBD定義では表現されない)。
+***********************************************************************
+         TITLE   'DBDGEN OF DBDNAME=DBPAUJP0 (日本版 与信DB)'
+       DBD     NAME=DBPAUJP0,ACCESS=(HIDAM,VSAM),PASSWD=NO,            C
+               EXIT=(*,KEY,DATA,NOPATH,(NOCASCADE),LOG),               C
+               VERSION=
+***********************************************************************
+*        データセットグループ 1                                       *
+***********************************************************************
+DSG001 DATASET DD1=DDPAUJP0,SIZE=(4096),SCAN=3
+***********************************************************************
+*        セグメント1 - ルート: 与信サマリ(口座単位)                 *
+***********************************************************************
+       SEGM    NAME=PAUJSUM0,PARENT=0,BYTES=100,RULES=(,HERE),         X
+               POINTER=(TWINBWD)
+*        口座番号(キー)
+       FIELD   NAME=(KOUZAID,SEQ,U),START=1,BYTES=6,TYPE=P
+       LCHILD  NAME=(PAUJINDX,DBPAUJX0),                               X
+               POINTER=INDX
+***********************************************************************
+*        セグメント2 - 与信明細(漢字加盟店名を含む)                 *
+*        BYTES=280: 原200 + 漢字加盟店名40 + 漢字所在地30 + 予備10     *
+***********************************************************************
+       SEGM    NAME=PAUJDTL1,PARENT=((PAUJSUM0,)),BYTES=280
+*        与信日時(キー)
+       FIELD   NAME=(YOSIN9TS,SEQ,U),START=1,BYTES=8,TYPE=C
+*        カード番号
+       FIELD   NAME=(CARDNUM,,U),START=9,BYTES=16,TYPE=C
+*        加盟店名(英数字)
+       FIELD   NAME=(MERCHENM,,U),START=60,BYTES=22,TYPE=C
+*        漢字加盟店名(DBCS混在: SO..SI を含む透過バイト列)
+*        ※IMSはバイト列として格納。文字コード変換はアプリ層の責務。
+       FIELD   NAME=(KJMRCHNM,,U),START=82,BYTES=40,TYPE=C
+*        漢字所在地
+       FIELD   NAME=(KJMRCHCT,,U),START=135,BYTES=30,TYPE=C
+***********************************************************************
+       DBDGEN
+       FINISH
+       END

@@ -1,0 +1,10 @@
+***********************************************************************
+* 日本版CardDemo - 与信DB PSB定義 (PSBPAUJB)
+* 原 PSBPAUTB 相当。与信DB(DBPAUJP0)への PCB を定義。
+* 漢字フィールドはセグメント内のバイト列として参照される。
+***********************************************************************
+       PCB     TYPE=DB,DBDNAME=DBPAUJP0,PROCOPT=A,KEYLEN=14
+       SENSEG  NAME=PAUJSUM0,PARENT=0
+       SENSEG  NAME=PAUJDTL1,PARENT=PAUJSUM0
+       PSBGEN  LANG=COBOL,PSBNAME=PSBPAUJB,CMPAT=YES
+       END

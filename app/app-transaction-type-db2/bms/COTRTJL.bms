@@ -1,0 +1,27 @@
+******************************************************************
+*    日本版CardDemo - 取引タイプ一覧 (COTRTJL)
+*    取引タイプの漢字説明を一覧表示
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COTRTJL DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COTRTJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  取引タイプ一覧'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='タイプ   :'
+TTYPE   DFHMDF POS=(3,12),LENGTH=2,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字説明 :'
+KJDESC  DFHMDF POS=(5,12),LENGTH=60,ATTRB=(ASKIP,NORM,DBCS),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='F3=終了  F8=次頁'
+        DFHMSD TYPE=FINAL
+        END

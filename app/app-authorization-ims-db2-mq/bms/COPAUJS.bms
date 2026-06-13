@@ -1,0 +1,30 @@
+******************************************************************
+*    日本版CardDemo - 与信照会 (COPAUJS)
+*    与信明細(漢字加盟店名)を照会
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COPAUJS DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COPAUJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  与信照会'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='カード番号:'
+CRDNUM  DFHMDF POS=(3,12),LENGTH=16,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字加盟店:'
+KJMRCH  DFHMDF POS=(5,12),LENGTH=60,ATTRB=(ASKIP,NORM,DBCS),COLOR=NEUTRAL
+        DFHMDF POS=(7,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='与信結果 :'
+RESULT  DFHMDF POS=(7,12),LENGTH=10,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='F3=終了  Enter=照会'
+        DFHMSD TYPE=FINAL
+        END
