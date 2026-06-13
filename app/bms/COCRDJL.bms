@@ -1,0 +1,38 @@
+******************************************************************
+*    日本版CardDemo - カード一覧画面 (COCRDJL)
+*    カードのエンボス名(英数字)と漢字エンボス名(DBCS)を一覧表示。
+*    漢字エンボス名は MIXED フィールド(SOSI=YES)で SO/SI を解釈。
+******************************************************************
+COCRDJL DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COCRDJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  カード一覧'
+*--- 見出し行 ---
+        DFHMDF POS=(3,1),LENGTH=18,ATTRB=(ASKIP,NORM),                 -
+               COLOR=BLUE,INITIAL='カード番号'
+        DFHMDF POS=(3,22),LENGTH=14,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='エンボス名'
+        DFHMDF POS=(3,44),LENGTH=20,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='漢字エンボス名'
+*--- 明細行1 ---
+CRDNM1  DFHMDF POS=(5,1),LENGTH=16,ATTRB=(ASKIP,NORM),COLOR=TURQUOISE
+EMBNM1  DFHMDF POS=(5,22),LENGTH=20,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+*       漢字エンボス名(混在 SO..SI)
+KJEMB1  DFHMDF POS=(5,44),LENGTH=30,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+*--- 明細行2 ---
+CRDNM2  DFHMDF POS=(6,1),LENGTH=16,ATTRB=(ASKIP,NORM),COLOR=TURQUOISE
+EMBNM2  DFHMDF POS=(6,22),LENGTH=20,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+KJEMB2  DFHMDF POS=(6,44),LENGTH=30,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+*--- メッセージ ---
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='F3=終了  F7=前頁  F8=次頁'
+        DFHMSD TYPE=FINAL
+        END

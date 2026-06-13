@@ -1,0 +1,42 @@
+******************************************************************
+*    日本版CardDemo - 取引追加画面 (COTRNJ0)
+*    取引の漢字摘要(DBCS)・円記号金額(T6)・全角受付番号(T10)を入力。
+*    漢字摘要・漢字加盟店名は MIXED フィールド(SOSI=YES)。
+******************************************************************
+COTRNJ0 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COTRNJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  取引追加'
+*--- 取引ID ---
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='取引ID   :'
+TRNID   DFHMDF POS=(3,12),LENGTH=16,ATTRB=(UNPROT,FSET),COLOR=TURQUOISE
+*--- 漢字摘要(DBCS混在入力) ---
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字摘要 :'
+KJDESC  DFHMDF POS=(5,12),LENGTH=60,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+*--- 金額(円記号付き / T6) ---
+        DFHMDF POS=(7,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='金額     :'
+AMTYEN  DFHMDF POS=(7,12),LENGTH=15,ATTRB=(UNPROT,FSET),COLOR=TURQUOISE
+*--- 漢字加盟店名(DBCS混在入力) ---
+        DFHMDF POS=(9,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='加盟店名 :'
+KJMRCH  DFHMDF POS=(9,12),LENGTH=60,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+*--- 受付番号(全角数字可 / T10) ---
+        DFHMDF POS=(11,1),LENGTH=10,ATTRB=(ASKIP,NORM),                -
+               COLOR=GREEN,INITIAL='受付番号 :'
+REFNO   DFHMDF POS=(11,12),LENGTH=20,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+*--- メッセージ ---
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='Enter=登録  F3=終了  F12=取消'
+        DFHMSD TYPE=FINAL
+        END

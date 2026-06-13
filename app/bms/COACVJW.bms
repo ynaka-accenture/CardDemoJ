@@ -1,0 +1,64 @@
+******************************************************************
+*    日本版CardDemo - 口座照会画面 (COACVJW)
+*    漢字氏名・漢字住所を DBCS/MIXED 属性で表示する BMS マップ。
+*    SOSI=YES により、フィールド内の SO(0x0E)/SI(0x0F) を端末が解釈する。
+*
+*    日本語化のポイント:
+*      ATTRB に DBCS を指定したフィールドは2バイト文字専用(漢字のみ)
+*      SOSI=YES の MIXED フィールドは SBCS/DBCS 混在(SO/SI 制御)
+*      → UTF-8基盤の画面エミュレータへ移行する際、SO/SI 制御と
+*        DBCSセル幅(全角=2カラム)の扱いが BMS と異なり再設計が必要(T1/T2)
+******************************************************************
+COACVJW DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COACVJ0 DFHMDI SIZE=(24,80),                                           -
+               LINE=1,                                                 -
+               COLUMN=1
+*--- ヘッダ ---
+        DFHMDF POS=(1,1),LENGTH=7,ATTRB=(ASKIP,NORM),                  -
+               COLOR=BLUE,INITIAL='トラン:'
+TRNNAME DFHMDF POS=(1,9),LENGTH=4,ATTRB=(ASKIP,NORM),COLOR=BLUE
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  口座照会'
+*--- 口座番号 ---
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='口座番号 :'
+ACCTID  DFHMDF POS=(3,12),LENGTH=11,ATTRB=(UNPROT,NUM,FSET),           -
+               COLOR=TURQUOISE
+*--- 漢字氏名(DBCS専用フィールド) ---
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字氏名 :'
+*       DBCS属性: 全角文字専用。LENGTHはバイト数(漢字10文字=20バイト)
+KJNAME  DFHMDF POS=(5,12),LENGTH=40,ATTRB=(ASKIP,NORM,DBCS),           -
+               COLOR=NEUTRAL
+*--- カナ氏名(混在 SOSI) ---
+        DFHMDF POS=(6,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='カナ氏名 :'
+KANAME  DFHMDF POS=(6,12),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=NEUTRAL
+*--- 漢字住所(混在 SOSI: 英数字番地+漢字市区) ---
+        DFHMDF POS=(8,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字住所 :'
+KJADDR1 DFHMDF POS=(8,12),LENGTH=60,ATTRB=(ASKIP,NORM),                -
+               COLOR=NEUTRAL
+KJADDR2 DFHMDF POS=(9,12),LENGTH=60,ATTRB=(ASKIP,NORM),                -
+               COLOR=NEUTRAL
+*--- 残高(円記号付き) ---
+        DFHMDF POS=(11,1),LENGTH=10,ATTRB=(ASKIP,NORM),                -
+               COLOR=GREEN,INITIAL='現在残高 :'
+CURBAL  DFHMDF POS=(11,12),LENGTH=15,ATTRB=(ASKIP,NORM),               -
+               COLOR=TURQUOISE
+*--- メッセージ行 ---
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),                 -
+               COLOR=RED
+*--- ファンクションキー案内 ---
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='F3=終了  F5=更新画面  Enter=照会'
+        DFHMSD TYPE=FINAL
+        END

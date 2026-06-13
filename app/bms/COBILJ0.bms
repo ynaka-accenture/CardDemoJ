@@ -1,0 +1,33 @@
+******************************************************************
+*    日本版CardDemo - 請求照会 (COBILJ0)
+*    顧客漢字氏名と円記号金額を表示する
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COBILJ0 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COBILJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  請求照会'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='口座番号 :'
+ACCTID  DFHMDF POS=(3,12),LENGTH=11,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字氏名 :'
+KJNAME  DFHMDF POS=(5,12),LENGTH=40,ATTRB=(ASKIP,NORM,DBCS),COLOR=NEUTRAL
+        DFHMDF POS=(7,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='請求金額 :'
+BILLYEN DFHMDF POS=(7,12),LENGTH=15,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+        DFHMDF POS=(8,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='支払期限 :'
+DUEDATE DFHMDF POS=(8,12),LENGTH=10,ATTRB=(ASKIP,NORM),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='F3=終了  Enter=照会'
+        DFHMSD TYPE=FINAL
+        END

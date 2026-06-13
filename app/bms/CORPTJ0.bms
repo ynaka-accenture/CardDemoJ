@@ -1,0 +1,30 @@
+******************************************************************
+*    日本版CardDemo - 帳票出力 (CORPTJ0)
+*    漢字を含む帳票の出力条件を指定する
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+CORPTJ0 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+CORPTJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  帳票出力'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='開始日   :'
+FROMDT  DFHMDF POS=(3,12),LENGTH=10,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(4,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='終了日   :'
+TODT    DFHMDF POS=(4,12),LENGTH=10,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(6,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='帳票種別 :'
+RPTTYPE DFHMDF POS=(6,12),LENGTH=20,ATTRB=(UNPROT,FSET,DBCS),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='Enter=出力  F3=終了'
+        DFHMSD TYPE=FINAL
+        END

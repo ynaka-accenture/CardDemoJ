@@ -1,0 +1,24 @@
+******************************************************************
+*    日本版CardDemo - メインメニュー (COMENJ1)
+*    利用者機能のメニュー
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COMENJ1 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COMENJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  メインメニュー'
+        DFHMDF POS=(10,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='選択番号 :'
+OPTION  DFHMDF POS=(10,12),LENGTH=2,ATTRB=(UNPROT,NUM,FSET),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='番号入力  F3=サインオフ'
+        DFHMSD TYPE=FINAL
+        END

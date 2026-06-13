@@ -1,0 +1,30 @@
+******************************************************************
+*    日本版CardDemo - カード更新 (COCRDJU)
+*    漢字エンボス名を入力する
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COCRDJU DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COCRDJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  カード更新'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='カード番号:'
+CRDNUM  DFHMDF POS=(3,12),LENGTH=16,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='エンボス名:'
+EMBNAME DFHMDF POS=(5,12),LENGTH=50,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(6,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字エンボス:'
+KJEMB   DFHMDF POS=(6,12),LENGTH=40,ATTRB=(UNPROT,FSET,DBCS),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='Enter=更新  F3=終了'
+        DFHMSD TYPE=FINAL
+        END

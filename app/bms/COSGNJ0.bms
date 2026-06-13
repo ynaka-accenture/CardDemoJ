@@ -1,0 +1,40 @@
+******************************************************************
+*    日本版CardDemo - サインオン画面 (COSGNJ0)
+*    利用者認証画面。固定文言を日本語化。
+*    認証フィールド(利用者ID/パスワード)は英数字のため SBCS。
+*    タイトル・案内は漢字(DBCS)で表示。
+******************************************************************
+COSGNJ0 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COSGNJA DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+        DFHMDF POS=(1,1),LENGTH=7,ATTRB=(ASKIP,NORM),                  -
+               COLOR=BLUE,INITIAL='トラン:'
+TRNNAME DFHMDF POS=(1,9),LENGTH=4,ATTRB=(ASKIP,NORM),COLOR=BLUE
+*--- タイトル(漢字) ---
+TITLE01 DFHMDF POS=(3,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  サインオン'
+        DFHMDF POS=(5,25),LENGTH=30,ATTRB=(ASKIP,NORM),                -
+               COLOR=GREEN,INITIAL='クレジットカード管理システム'
+*--- 利用者ID(英数字) ---
+        DFHMDF POS=(10,20),LENGTH=12,ATTRB=(ASKIP,NORM),               -
+               COLOR=NEUTRAL,INITIAL='利用者ID  :'
+USERID  DFHMDF POS=(10,34),LENGTH=8,ATTRB=(UNPROT,FSET),               -
+               COLOR=TURQUOISE
+*--- パスワード(英数字・非表示) ---
+        DFHMDF POS=(12,20),LENGTH=12,ATTRB=(ASKIP,NORM),               -
+               COLOR=NEUTRAL,INITIAL='パスワード:'
+PASSWD  DFHMDF POS=(12,34),LENGTH=8,ATTRB=(UNPROT,DRK,FSET),           -
+               COLOR=TURQUOISE
+*--- メッセージ ---
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),                 -
+               COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=30,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='Enter=サインオン  F3=終了'
+        DFHMSD TYPE=FINAL
+        END

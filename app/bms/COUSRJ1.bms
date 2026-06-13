@@ -1,0 +1,27 @@
+******************************************************************
+*    日本版CardDemo - 利用者登録 (COUSRJ1)
+*    利用者の新規登録(氏名は漢字可)
+*    漢字フィールドは DBCS/MIXED 属性(SOSI=YES)で SO/SI を端末解釈。
+******************************************************************
+COUSRJ1 DFHMSD TYPE=&&SYSPARM,                                          -
+               MODE=INOUT,                                             -
+               LANG=COBOL,                                             -
+               STORAGE=AUTO,                                           -
+               CTRL=(FREEKB,ALARM),                                    -
+               EXTATT=YES,                                             -
+               SOSI=YES,                                               -
+               TIOAPFX=YES
+COUSRJB DFHMDI SIZE=(24,80),LINE=1,COLUMN=1
+TITLE01 DFHMDF POS=(1,20),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=YELLOW,INITIAL='日本版CardDemo  利用者登録'
+        DFHMDF POS=(3,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='利用者ID :'
+USERID  DFHMDF POS=(3,12),LENGTH=8,ATTRB=(UNPROT,FSET),COLOR=NEUTRAL
+        DFHMDF POS=(5,1),LENGTH=10,ATTRB=(ASKIP,NORM),                 -
+               COLOR=GREEN,INITIAL='漢字氏名 :'
+KJNAME  DFHMDF POS=(5,12),LENGTH=40,ATTRB=(UNPROT,FSET,DBCS),COLOR=NEUTRAL
+ERRMSG  DFHMDF POS=(23,1),LENGTH=78,ATTRB=(ASKIP,BRT),COLOR=RED
+        DFHMDF POS=(24,1),LENGTH=40,ATTRB=(ASKIP,NORM),                -
+               COLOR=BLUE,INITIAL='Enter=登録  F3=終了'
+        DFHMSD TYPE=FINAL
+        END
